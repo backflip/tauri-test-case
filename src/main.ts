@@ -26,5 +26,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     },
     title: `Toggle`,
+    menu: await Menu.new({
+      items: [
+        {
+          id: "quit",
+          text: "Quit",
+          async action() {
+            await exit(0);
+          },
+        },
+      ],
+    }),
+    menuOnLeftClick: false,
   });
 });
