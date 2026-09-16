@@ -1,7 +1,9 @@
-# Tauri + Vanilla TS
+# Tauri Test Case
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Typescript.
+As of macOS 27, [`menuOnLeftClick`](https://v2.tauri.app/learn/system-tray/#add-a-menu) does not seem to work for system tray icons anymore. Instead of triggering the default click action, the menu is opened on left click.
 
-## Recommended IDE Setup
+See [commit history](https://github.com/backflip/tauri-test-case/commits) for steps to reproduce:
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+1. Init project via `create-tauri-app`
+2. Add system tray icon toggling the app window: Left click works as intended
+3. Add menu to system tray icon: Left click toggles the menu rather than the app window
