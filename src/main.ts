@@ -1,22 +1,30 @@
-import { invoke } from "@tauri-apps/api/core";
+import { Menu } from "@tauri-apps/api/menu/menu";
+import { exit } from "@tauri-apps/plugin-process";
+import { TrayIcon, type TrayIconEvent } from "@tauri-apps/api/tray";
+import { getCurrentWindow } from "@tauri-apps/api/window";
 
-let greetInputEl: HTMLInputElement | null;
-let greetMsgEl: HTMLElement | null;
+const window = getCurrentWindow();
 
-async function greet() {
-  if (greetMsgEl && greetInputEl) {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    greetMsgEl.textContent = await invoke("greet", {
-      name: greetInputEl.value,
-    });
-  }
-}
+document.addEventListener("DOMContentLoaded", async () => {
+  await TrayIcon.new({
+    action: async (event: TrayIconEvent) => {
+      switch (event.type) {
+        case "Click": {
+          if (event.buttonState === "Down") {
+            break;
+          }
 
-window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form")?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
+          if (await window.isVisible()) {
+            await window.hide();
+          } else {
+            await window.show();
+            await window.setFocus();
+          }
+
+          break;
+        }
+      }
+    },
+    title: `Toggle`,
   });
 });
